@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-currency-converter',
   templateUrl: './currency-converter.component.html',
-  styleUrls: ['./currency-converter.component.sass']
+  styleUrls: ['./currency-converter.component.css']
 })
 export class CurrencyConverterComponent {
 
