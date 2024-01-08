@@ -15,22 +15,16 @@ export class CurrencyConverterComponent {
 
   currencies: string[] = [];
 
-
   private apiUrl = 'https://v6.exchangerate-api.com/v6/c9aa3cd40d80206acefc63ed/latest/USD';
-
-
   conversionRates: { [key: string]: number } = {};
 
   constructor(private http: HttpClient) {
-
     this.fetchConversionRates();
   }
-
 
   fetchConversionRates() {
     this.http.get<any>(this.apiUrl).subscribe(
       (response) => {
-
         this.conversionRates = response.conversion_rates;
         this.currencies = Object.keys(this.conversionRates);
       },
@@ -41,24 +35,21 @@ export class CurrencyConverterComponent {
   }
 
   convert() {
-    
-    const conversionKey = `${this.from}-${this.to}`;
-
+    const conversionKey = `${this.from.toUpperCase()}-${this.to.toUpperCase()}`;
 
     if (!this.from || !this.to) {
       console.error('Please select both "From" and "To" currencies.');
-      return; 
+      return;
     }
-  
-    if (this.conversionRates.hasOwnProperty(conversionKey)) {
+
+    if (this.conversionRates && this.conversionRates.hasOwnProperty(conversionKey)) {
       const conversionRate = this.conversionRates[conversionKey];
-      
 
       if (isNaN(this.amount)) {
         console.error('Please enter a valid number in the "Amount" field.');
-        return; 
+        return;
       }
-  
+
       this.convertedAmount = this.amount * conversionRate;
     } else {
       console.error(`Conversion rate not available for ${conversionKey}`);
@@ -66,12 +57,9 @@ export class CurrencyConverterComponent {
   }
 
   clear() {
-
     this.amount = 0;
     this.from = '';
     this.to = '';
     this.convertedAmount = 0;
   }
-  }
-
-
+}
