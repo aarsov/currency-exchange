@@ -64,7 +64,7 @@ export class CurrencyConverterComponent {
           const conversionRate = this.conversionRates[conversionKey];
 
           if (isNaN(this.amount)) {
-            alert('Please enter a valid number in the "Amount" field.');
+            console.error('Please enter a valid number in the "Amount" field.');
             return;
           }
 
