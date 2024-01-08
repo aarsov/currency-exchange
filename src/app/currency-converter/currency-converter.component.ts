@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {catchError, Observable, throwError} from "rxjs";
 
 @Component({
   selector: 'app-currency-converter',
@@ -22,38 +23,57 @@ export class CurrencyConverterComponent {
     this.fetchConversionRates();
   }
 
+  fetchConversionRatesForBaseCurrency(baseCurrency: string): Observable<any> {
+    this.apiUrl = `https://v6.exchangerate-api.com/v6/c9aa3cd40d80206acefc63ed/latest/${baseCurrency}`;
+
+    return this.http.get<any>(this.apiUrl).pipe(
+      catchError((error) => {
+        console.error(`Error fetching conversion rates for ${baseCurrency}:`, error);
+        return throwError(error);
+      })
+    );
+  }
+
   fetchConversionRates() {
-    this.http.get<any>(this.apiUrl).subscribe(
+    this.fetchConversionRatesForBaseCurrency('USD').subscribe(
       (response) => {
         this.conversionRates = response.conversion_rates;
         this.currencies = Object.keys(this.conversionRates);
       },
       (error) => {
-        console.error('Error fetching conversion rates:', error);
+        console.error(`Error fetching conversion rates for USD:`, error);
       }
-    );
+    );;
   }
 
   convert() {
-    const conversionKey = `${this.from.toUpperCase()}-${this.to.toUpperCase()}`;
-
     if (!this.from || !this.to) {
       console.error('Please select both "From" and "To" currencies.');
       return;
     }
 
-    if (this.conversionRates && this.conversionRates.hasOwnProperty(conversionKey)) {
-      const conversionRate = this.conversionRates[conversionKey];
+    const baseCurrency = this.from.toUpperCase();
+    this.fetchConversionRatesForBaseCurrency(baseCurrency).subscribe(
+      (response) => {
+        this.conversionRates = response.conversion_rates;
+        this.currencies = Object.keys(this.conversionRates);
 
-      if (isNaN(this.amount)) {
-        console.error('Please enter a valid number in the "Amount" field.');
-        return;
+        const conversionKey = `${this.to.toUpperCase()}`;
+
+        if (this.conversionRates && this.conversionRates.hasOwnProperty(conversionKey)) {
+          const conversionRate = this.conversionRates[conversionKey];
+
+          if (isNaN(this.amount)) {
+            console.error('Please enter a valid number in the "Amount" field.');
+            return;
+          }
+
+          this.convertedAmount = this.amount * conversionRate;
+        } else {
+          console.error(`Conversion rate not available for ${conversionKey}`);
+        }
       }
-
-      this.convertedAmount = this.amount * conversionRate;
-    } else {
-      console.error(`Conversion rate not available for ${conversionKey}`);
-    }
+    );
   }
 
   clear() {
