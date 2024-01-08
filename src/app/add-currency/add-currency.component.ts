@@ -33,8 +33,7 @@ export class AddCurrencyComponent {
     if (this.newCurrency.trim() !== '') {
       if (this.currenciesFromAPI.includes(this.newCurrency.toUpperCase())) {
         this.currencyAdded.emit(this.newCurrency.trim());
-        this.newCurrency = ''; // Clear the input field after emitting the currency
-      } else {
+        this.newCurrency = ''; 
         console.error('Currency not available from API.');
       }
     } else {

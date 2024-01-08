@@ -1,16 +1,21 @@
 <div class="currency-converter">
+  <p>Amount:</p>
   <input type="text" [(ngModel)]="amount">
+  <p>From:</p>
   <select [(ngModel)]="from">
     <option *ngFor="let currency of currencies" [value]="currency">
       {{ currency }}
     </option>
   </select>
+  <p>To:</p>
   <select [(ngModel)]="to">
+    <p>To:</p>
     <option *ngFor="let currency of currencies" [value]="currency">
       {{ currency }}
     </option>
   </select>
   <input type="button" value="Convert" (click)="convert()">
+  <p>Converted amount:</p>
   <input type="text" [(ngModel)]="convertedAmount">
   <input type="button" value="Clear" (click)="clear()">
   
