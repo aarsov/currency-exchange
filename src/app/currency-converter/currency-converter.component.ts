@@ -13,6 +13,9 @@ export class CurrencyConverterComponent {
   from: string = '';
   to: string = '';
   convertedAmount: number = 0;
+  selectedCurrency: string = '';
+  currencyList: { code: string, rate: number, converted: number }[] = [];
+  
 
   currencies: string[] = [];
 
@@ -21,7 +24,10 @@ export class CurrencyConverterComponent {
 
   constructor(private http: HttpClient) {
     this.fetchConversionRates();
-  }
+
+   }
+
+
 
   fetchConversionRatesForBaseCurrency(baseCurrency: string): Observable<any> {
     this.apiUrl = `https://v6.exchangerate-api.com/v6/c9aa3cd40d80206acefc63ed/latest/${baseCurrency}`;
@@ -51,30 +57,62 @@ export class CurrencyConverterComponent {
       console.error('Please select both "From" and "To" currencies.');
       return;
     }
-
+  
     const baseCurrency = this.from.toUpperCase();
     this.fetchConversionRatesForBaseCurrency(baseCurrency).subscribe(
       (response) => {
         this.conversionRates = response.conversion_rates;
         this.currencies = Object.keys(this.conversionRates);
-
-        const conversionKey = `${this.to.toUpperCase()}`;
-
+  
+        const conversionKey = this.to.toUpperCase();
+  
         if (this.conversionRates && this.conversionRates.hasOwnProperty(conversionKey)) {
           const conversionRate = this.conversionRates[conversionKey];
-
+  
           if (isNaN(this.amount)) {
             console.error('Please enter a valid number in the "Amount" field.');
             return;
           }
-
+  
           this.convertedAmount = this.amount * conversionRate;
+  
+         
+          this.currencyList.push({
+            code: conversionKey,
+            rate: conversionRate,
+            converted: this.convertedAmount
+          });
         } else {
           console.error(`Conversion rate not available for ${conversionKey}`);
         }
       }
     );
   }
+  
+
+  addCurrency() {
+    if (this.selectedCurrency) {
+      this.fetchConversionRatesForBaseCurrency(this.selectedCurrency).subscribe(
+        (response) => {
+          const rate = response.conversion_rates[this.selectedCurrency];
+  
+          if (rate) {
+            this.currencyList.push({
+              code: this.selectedCurrency,
+              rate: rate,
+              converted: this.amount * rate 
+            });
+          } else {
+            console.error(`Conversion rate not available for ${this.selectedCurrency}`);
+          }
+        },
+        (error) => {
+          console.error('Error fetching conversion rates:', error);
+        }
+      );
+    }
+  }
+  
 
   clear() {
     this.amount = 0;
