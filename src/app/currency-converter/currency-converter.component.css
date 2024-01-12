@@ -2,58 +2,58 @@
   max-width: 400px;
   margin: auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #3498db; 
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: relative;
+  background-color: #ecf0f1; 
 }
 
-.currency-converter input,
-.currency-converter select,
-.currency-converter button {
-  display: block;
-  margin-bottom: 10px;
-  padding: 8px;
+.input-label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #3498db; 
+}
+
+mat-form-field {
   width: 100%;
-  box-sizing: border-box;
 }
 
-.currency-converter button {
-  background-color: #4caf50;
+mat-select {
+  width: 100%;
+}
+
+mat-select-trigger {
+  color: #3498db; 
+}
+
+mat-option {
+  color: #333; 
+}
+
+mat-option:hover {
+  background-color: #3498db; 
   color: white;
-  cursor: pointer;
 }
 
-.currency-converter button:hover {
-  background-color: #45a049;
+button {
+  margin-top: 10px;
 }
 
-::ng-deep .mat-mdc-select-panel {
-  max-height: 250px !important;
-  overflow: auto;
-  border: solid 1px #e1e1e1;
-  margin: 0;
-  list-style-type: none;
-  position: absolute !important;
-  padding: 0 !important;
+button[mat-flat-button] {
+  width: 100%;
 }
 
-::ng-deep textarea {
+textarea {
   overflow-y: auto;
   resize: none;
-  height: 122px !important;
+  height: 100px;
   width: 100%;
-  padding: 0;
-}
-
-::ng-deep .cdk-overlay-pane {
-  position: absolute;
-}
-
-.mat-form-field {
-  position: relative; 
-}
-
-.mat-select-panel {
-  z-index: 2 !important; 
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #3498db; 
+  border-radius: 5px;
+  background-color: #fff; 
+  color: #333; 
 }

@@ -1,60 +1,43 @@
 <div class="currency-converter">
   <form [formGroup]="form">
-    <p>Amount:</p>
-    <mat-form-field
-      appearance="outline"
-    >
-      <input type="text" matInput formControlName="amount" placeholder="" />
+    <p class="input-label">Amount:</p>
+    <mat-form-field appearance="outline">
+      <input type="text" matInput formControlName="amount" placeholder="Enter amount" />
     </mat-form-field>
 
-<!--    <input type="text" [(ngModel)]="amount">-->
-    <p>From:</p>
-      <mat-form-field appearance="outline" (click)="toggleFromCurrencyMenu()">
-          <mat-select formControlName="fromCurrency">
-            <div
-              [@fromCurrencyMenuAnimation]="fromCurrencyMenuOpen ? 'visible' : 'hidden'"
-              [class.display-none]="!fromCurrencyMenuOpen"
-            >
-              <span class="currency-container">
-                <mat-option
-                  *ngFor="let currency of currencies"
-                  [value]="currency"
-                >
-                {{ currency }}
-              </mat-option>
-              </span>
-            </div>
-          </mat-select>
-      </mat-form-field>
-
-    <p>To:</p>
-      <mat-form-field appearance="outline" (click)="toggleToCurrenciesMenu()">
-          <mat-select formControlName="toCurrencies" multiple>
-            <div
-              [@fromCurrencyMenuAnimation]="toCurrenciesMenuAnimation ? 'visible' : 'hidden'"
-              [class.display-none]="!toCurrenciesMenuAnimation"
-            >
-              <span>
-                <mat-option
-                  *ngFor="let currency of currencies"
-                  [value]="currency"
-                >
-                {{ currency }}
-              </mat-option>
-              </span>
-            </div>
-          </mat-select>
-      </mat-form-field>
-
-    <input type="button" value="Convert" (click)="convert()">
-    <p>Converted amounts:</p>
-    <mat-form-field
-      appearance="outline"
-    >
-      <textarea matInput formControlName="convertedAmounts" placeholder="" readonly>
-        {{ form.get('convertedAmounts')?.value }}
-      </textarea>
+    <p class="input-label">From:</p>
+    <mat-form-field appearance="outline" (click)="toggleFromCurrencyMenu()">
+      <mat-select formControlName="fromCurrency" placeholder="Select currency">
+        <div [@fromCurrencyMenuAnimation]="fromCurrencyMenuOpen ? 'visible' : 'hidden'" [class.display-none]="!fromCurrencyMenuOpen">
+          <span class="currency-container">
+            <mat-option *ngFor="let currency of currencies" [value]="currency">
+              {{ currency }}
+            </mat-option>
+          </span>
+        </div>
+      </mat-select>
     </mat-form-field>
-    <input type="button" class ="bluebtn" value="Clear" (click)="clear()">
+
+    <p class="input-label">To:</p>
+    <mat-form-field appearance="outline" (click)="toggleToCurrenciesMenu()">
+      <mat-select formControlName="toCurrencies" multiple placeholder="Select currencies">
+        <div [@toCurrenciesMenuAnimation]="toCurrenciesMenuAnimation ? 'visible' : 'hidden'" [class.display-none]="!toCurrenciesMenuAnimation">
+          <span>
+            <mat-option *ngFor="let currency of currencies" [value]="currency">
+              {{ currency }}
+            </mat-option>
+          </span>
+        </div>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="convert()">Convert</button>
+
+    <p class="input-label">Converted amounts:</p>
+    <mat-form-field appearance="outline">
+      <textarea matInput formControlName="convertedAmounts" placeholder="Converted amounts" readonly></textarea>
+    </mat-form-field>
+
+    <button mat-flat-button color="warn" (click)="clear()">Clear</button>
   </form>
 </div>
