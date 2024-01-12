@@ -26,3 +26,25 @@
 .currency-converter button:hover {
   background-color: #45a049;
 }
+
+::ng-deep .mat-mdc-select-panel {
+  max-height: 250px !important;
+  overflow: auto;
+  border: solid 1px #e1e1e1;
+  margin: 0;
+  list-style-type: none;
+  position: absolute !important;
+  padding: 0 !important;
+}
+
+::ng-deep textarea {
+  overflow-y: auto;
+  resize: none;
+  height: 122px !important;
+  width: 100%;
+  padding: 0;
+}
+
+::ng-deep .cdk-overlay-pane {
+  position: absolute;
+}
