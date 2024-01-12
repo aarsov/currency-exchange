@@ -5,6 +5,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .currency-converter input,
@@ -47,4 +48,12 @@
 
 ::ng-deep .cdk-overlay-pane {
   position: absolute;
+}
+
+.mat-form-field {
+  position: relative; 
+}
+
+.mat-select-panel {
+  z-index: 2 !important; 
 }
